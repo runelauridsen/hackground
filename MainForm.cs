@@ -68,14 +68,13 @@ namespace Hackground
             using RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
             if (SelectedColor != Color.Empty || SelectedImage != "")
             {
-                key.SetValue("Hackground", $"{exe} {args}");
                 args = $"#{SelectedColor.R:X2}{SelectedColor.G:X2}{SelectedColor.B:X2} \"{SelectedImage}\"";
-                
+                key.SetValue("Hackground", $"\"{exe}\" {args}");
             }
             else
             {
-                key.DeleteValue("Hackground", throwOnMissingValue: false);
                 args = "--stop";
+                key.DeleteValue("Hackground", throwOnMissingValue: false);
             }
 
             Process.Start(new ProcessStartInfo { FileName = exe, Arguments = args });
